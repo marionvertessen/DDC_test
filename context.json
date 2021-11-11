@@ -1,0 +1,59 @@
+{
+    "@context": {
+        "s": "http://schema.org/",
+        "ex": "http://example.com/ns#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+        "repository_url":{
+            "@reverse": "ex:issue",
+            "@type": "@id"
+        },
+        "created_at": {
+            "@id": "s:startDate",
+            "@type": "xsd:dateTimeStamp"
+        },
+        "title": "s:name",
+        "author_association": "ex:authorAssociation",
+
+        "html_url": {
+            "@id": "s:url",
+            "@type": "xsd:anyURI"
+        },
+
+        "user": "s:creator",
+        "type":  "@type",
+        "User": "ex:User",
+
+        "assignees": "ex:assignee",
+
+        "login":{
+            "@id":"s:accountId",
+            "@type":"xsd:string"
+        },
+        "labels": {
+            "@id": "ex:label"
+        },
+        "name":{
+            "@id":"s:name",
+            "@type":"xsd:string"
+        },
+        "body":{
+        "@id":"s:description",
+        "@type":"xsd:string"
+    },
+        "url": "@id",
+
+        "issue_url": {
+            "@id": "ex:comment",
+            "@type": "@id"
+        },
+        "state":"@type",
+
+        "open": "ex:OpenIssue",
+        "closed": "ex:ClosedIssue",
+        "closed_at" : {
+            "@id": "s:endDate",
+            "@type": "xsd:dateTimeStamp"
+        }
+    }
+}
