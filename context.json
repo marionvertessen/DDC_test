@@ -14,7 +14,7 @@
         },
         "title": "s:name",
         "author_association": "ex:authorAssociation",
-
+        "number": "s:identifier",
         "html_url": {
             "@id": "s:url",
             "@type": "xsd:anyURI"
@@ -24,6 +24,9 @@
         "type":  "@type",
         "User": "ex:User",
 
+        "description" : "s:description",
+        "body": "s:description",
+        
         "assignees": "ex:assignee",
 
         "login":{
@@ -37,23 +40,18 @@
             "@id":"s:name",
             "@type":"xsd:string"
         },
-        "body":{
-        "@id":"s:description",
-        "@type":"xsd:string"
-    },
+
         "url": "@id",
-
-        "issue_url": {
-            "@id": "ex:comment",
-            "@type": "@id"
-        },
         "state":"@type",
-
         "open": "ex:OpenIssue",
         "closed": "ex:ClosedIssue",
         "closed_at" : {
             "@id": "s:endDate",
             "@type": "xsd:dateTimeStamp"
+        },
+        "issue_url": {
+            "@reverse": "ex:comment",
+            "@type": "@id"
         }
     }
 }

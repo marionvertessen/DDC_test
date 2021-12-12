@@ -50,21 +50,6 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
         sh:datatype xsd:string;
         sh:minCount 1;
         sh:maxCount 1;
-    ],[
-        # Tous les objets des arcs sortants ex:label (s'il y en a) doivent
-        # être conformes à la shape :LabelShape (cf. ci-dessous).
-        sh:path ex:label;
-        sh:node :LabelShape;
-    ],[
-        # Tous les objets des arcs sortants ex:assignee (s'il y en a) doivent
-        # être conformes à la shape :UserShape (cf. ci-dessous).
-        sh:path ex:assignee;
-        sh:node :UserShape;
-    ],[
-        # Tous les objets des arcs sortants ex:comment (s'il y en a) doivent
-        # être conformes à la shape :CommentShape (cf. ci-dessous).
-        sh:path ex:comment;
-        sh:node :CommentShape;
     ];
 .
 
@@ -127,12 +112,11 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
         sh:minCount 1;
         sh:maxCount 1;
     ],[
-        # Il doit y avoir un unique arc sortant s:creator,
-        # et son objet doit vérifier la shape :UserShape (cf. ci-dessous).
+        # Il doit y avoir un unique arc sortant s:creator.
+        # NB: tout objet de s:creator doit être conforme :UserShape (cf. ci-dessous).
         sh:path s:creator;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:node :UserShape;
     ],[
         # Il doit y avoir un unique arc sortant s:startDate,
         # et son objet doit être un litéral de type xsd:anyURI.
@@ -159,11 +143,11 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
 .
 
 # Shape pour les labels.
-#
-# NB: cette shape n'a pas de propriété sh:tagetX, elle n'est donc pas
-# appliquée automatiquement. Mais elle est utilisée par :IssueShape pour les
-# valeurs de la propriété ex:label.
 :LabelShape a sh:NodeShape;
+    # Cette shape est vérifiée automatiquement sur tous les nœuds en position
+    # objet de la propriété ex:label.
+    sh:targetObjectsOf ex:label ;
+
     # Tous les nœuds ciblés par cette shape doivent être des IRIs
     # (donc ni blank nodes, ni litéraux).
     sh:nodeKind sh:IRI;
@@ -188,13 +172,13 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
 
 # Shape pour les utilisateurs.
 #
-# NB: cette shape n'a pas de propriété sh:tagetX, elle n'est donc pas
-# appliquée automatiquement. Mais elle est utilisée par :IssueOrCommentShape
-# et :IssueShape, pour les valeurs de la propriété s:creator et ex:assignee,
-# respectivement.
 :UserShape a sh:NodeShape;
+    # Cette shape est vérifiée automatiquement sur tous les nœuds en position
+    # objet des propriétés s:creator et ex:assignee.
+    sh:targetObjectsOf s:creator, ex:assignee ;
+
     # Tous les nœuds ciblés par cette shape doivent être des IRIs
-    # (donc ni blank nodes, ni litéraux).
+    # (donc ni blank nodes, ni littéraux).
     sh:nodeKind sh:IRI;
 
     # Les propriétés des nœuds ciblés par cette shape doivent vérifier les
@@ -205,14 +189,14 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
         sh:path rdf:type;
         sh:in (ex:User ex:Bot);
     ],[
-        # Il doit y avoir un unique arc sortant s:name,
+        # Il doit y avoir un unique arc sortant s:accountId,
         # et son objet doit être une chaîne (litéral de type xsd:string)
         # vérifiant l'expression régulière [a-zA-Z0-9]+.
         sh:path s:accountId;
         sh:datatype xsd:string;
         sh:minCount 1;
         sh:maxCount 1;
-        sh:pattern "[a-zA-Z0-9_]+";
+        sh:pattern "[-a-zA-Z0-9_]+";
     ],[
         # Il doit y avoir un unique arc sortant s:url,
         # et son objet doit être un litéral de type xsd:anyURI.
@@ -224,11 +208,11 @@ prefix : <tag:#champin.net,2020-12-02:trace-model/>
 .
 
 # Shape pour les commentaires.
-#
-# NB: cette shape n'a pas de propriété sh:tagetX, elle n'est donc pas
-# appliquée automatiquement. Mais elle est utilisée par :IssueShape pour les
-# valeurs de la propriété ex:comment.
 :CommentShape a sh:NodeShape;
+    # Cette shape est vérifiée automatiquement sur tous les nœuds en position
+    # objet de la propriété ex:comment.
+    sh:targetObjectsOf ex:comment ;
+
     # Les nœuds ciblés par cette shape doivent également être conformes
     # à la shape :IssueOrCommentShape (contraintes communes aux tickets
     # et aux commentaires, cf. ci-dessus).
